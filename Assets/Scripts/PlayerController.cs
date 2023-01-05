@@ -10,9 +10,10 @@ public class PlayerController : MonoBehaviour
 
     private float horizontalInput;
 
-    private void OnMove(InputValue movementValue)
+    public void OnMove(InputAction.CallbackContext ctx)
     {
-        float movementFloat = movementValue.Get<float>();
+        /*float movementFloat = movementValue.Get<float>();*/
+        float movementFloat = ctx.ReadValue<float>();
         horizontalInput = movementFloat;
     }
 
@@ -31,16 +32,14 @@ public class PlayerController : MonoBehaviour
         }
         /*on ajoute de la vitesse sur les movements du player par la variable horizontalInput*/
         transform.Translate(Vector3.right * horizontalInput * speed * Time.deltaTime);
-
-        /*if (Input.GetKeyDown(KeyCode.Space))
-        {
-*//*envoie de projetiles par le joueur*//*
-            Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
-        }*/
     }
 
-    void OnFire()
+    public void OnFire(InputAction.CallbackContext ctx)
     {
-        Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
+        if (ctx.performed)
+        {
+            Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
+        }
+        
     }
 }
